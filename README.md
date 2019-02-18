@@ -29,8 +29,8 @@
  - 主要算法：
 
      - 获取主机网卡设备：
-     ```
-    调用 pcap_findalldevs()获得网卡接口信息。
+     ```c++
+    #调用 pcap_findalldevs()获得网卡接口信息。
     int Cmcf6Dlg::lixsniff_initCap()
       { devCount = 0;
         if(pcap_findalldevs(&alldev, errbuf) ==-1)
