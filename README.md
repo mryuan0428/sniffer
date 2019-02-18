@@ -1,35 +1,25 @@
  - 开发环境：
-	本程序在 win7 32 位系统基于 WinPcap 开发，经测试也可在 win8 64 位和 win10 64
+```
+	本程序在 win7 32 位系统上基于 WinPcap 开发，经测试也可在 win8 64 位和 win10 64
 位系统运行。（注：测试前，须确保计算机上已经安装 WinPcap）
-本程序是使用Visual C++开发的 MFC 程序，开发/编译环境为 Microsoft Visual Studio 2010。
+	程序是使用Visual C++开发的 MFC 程序，开发/编译环境为 Microsoft Visual Studio 2010。
+```
 
  - 项目内容：
 ```
-    |--WJ_firewall文件夹（应用层：使用Qt开发的用户界面）
-    	|--……
-
-    |--build-WJ_firewall-Desktop_Qt_5_9_0_GCC_64bit-Debug文件夹（Qt编译产生的可执行程序，sudo ./WJ_firewall 可运行）
-        |--WJ_firewall（可执行程序）
-        |--……
-
-    |--my_mod文件夹（内核模块代码：在NF_INET_POST_ROUTING结点挂在钩子函数，接收规则并过滤报文）
-    	|--WJ_firewall.c
-        |--Makefile（sudo make 编译得到内核模块WJ_firewall.ko，并自动复制到bin文件夹）
+    |--source文件夹（源代码）
+    	|targetver.h, stdafx.h, stdafx.c, mcf6.h, mcf6.c, Resource.h 文档由VC++项目自动生成。
+    	|mcf6Dlg.h, mcf6Dlg.c 文档主要实现 GUI 以及数据包的抓获。
+		|Protocol.h 实现各协议头的数据结构及类型定义。
+		|utilities.h, utilities.c 实现各协议头分析的功能函数。
 
     |--bin文件夹
-        |--main.sh（在应用层代码中被调用，通过调用其他shell脚本进行内核模块的插入、检查、移除和报文过滤日志的采集）
-        |--insmod.sh（内核模块插入）
-        |--ckmod.sh（检查内核模块是否插入）
-        |--rmmod.sh（内核模块移除）
-        |--log.sh（报文过滤日志的采集）
-    |--data文件夹
-        |--rule.txt（保存正在运行的过滤规则）
-        |--log.txt（保存报文过滤日志记录）
-        |--rule_new（待导入的过滤规则，格式：SrcIP%DstIP%SPort%DPort%Time_Flag%Start_Hour%Start_Min%Stop_Hour%Stop_Min%Protocol）
-        |--rule_out(导出的过滤规则)
+        |--sniffer_wj.exe（打包好的sniffer程序，可直接运行）
+        |--SavedData文件夹（自动保存的lix抓包文件）
+
     |--image文件夹（软件运行界面截图）
     	|--……
-    |--doc文件夹（项目开发文档）
+
 ```
 
  - 说明：
