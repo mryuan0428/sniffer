@@ -30,7 +30,7 @@
 
      - 获取主机网卡设备：
      ```c++
-    #调用 pcap_findalldevs()获得网卡接口信息。
+    //调用 pcap_findalldevs()获得网卡接口信息。
     int Cmcf6Dlg::lixsniff_initCap()
       { devCount = 0;
         if(pcap_findalldevs(&alldev, errbuf) ==-1)
@@ -39,14 +39,27 @@
             devCount++;	//记录设备数return 0;
       }
     ```
- - 对于所有被Reject的报文都自动进行日志记录
- - 对于一些新版本内核需要修改内核部分代码，WJ_firewall.c文件中：
-    - nf_register_hook(&myhook)函数 需改为 nf_register_net_hook(&init_net,&myhook)
-    - nf_unregister_hook(&myhook)函数 需改为 nf_unregister_net_hook(&init_net,&myhook)
- - 使用前需安装Qt5并配置好环境：
-    - 修改/usr/lib/x86_64-linux-gnu/qt-default/qtchooser/default.conf文件为新安装Qt路径
-    - 使用Qt前还需安装libGL库：sudo apt-get install libgl1-mesa-dev
-```
+
+     - 打开指定网卡
+    ```
+        调用 pcap_open_live()打开指定网卡接口，winpcap 将在此接口上侦听数据。
+        然后调用 pcap_datalink()、pcap_compile()、pcap_setfilter()分别检查是否是以太网，并对过滤器进行设置。
+        由于网络中过来的数据包是不同层次、不同协议的，过滤器的作用就是可以设定一些的规则来查看自己想要的数据包。
+    ```
+
+     - 创建临时文件存储数据
+     ```
+        调用 pcap_dump_open()先创建一个文件，捕获的数据将会存储到此文件中，后面捕获的数据包将会实时地写入临时文件。
+        文件默认存储在 SaveData 文件中，文件名为存储时的时间，并且在捕获数据结束时，用户可以选择将此文件存储于指定路径。
+     ```
+
+    - 捕获、分析数据包
+    ```
+        因为主进程是一个对话框，它主要的任务是处理界面交互，而数据捕获是一项后台工作，所以调用CreateThread()创建一个新的线程，再调用 lixsinff_CapThread()函数在线程中完成数据包的捕获工作。
+        在 lixsinff_CapThread()中调用 pcap_next_ex()函数进行数据包捕获，每到达一个数据包，调用自定义的包处理函数 analyze_frame()函数完成对捕获数据的解析。
+    ```
+
+    - 相关数据更新到 GUI
 
  - 运行界面：
  	 - 主界面
