@@ -1,8 +1,8 @@
  - 开发环境：
 ```
-	本程序在 win7 32 位系统上基于 WinPcap 开发，经测试也可在 win8 64 位和 win10 64
+    本程序在 win7 32 位系统上基于 WinPcap 开发，经测试也可在 win8 64 位和 win10 64
 位系统运行。（注：测试前，须确保计算机上已经安装 WinPcap）
-	程序是使用Visual C++开发的 MFC 程序，开发/编译环境为 Microsoft Visual Studio 2010。
+    程序是使用Visual C++开发的 MFC 程序，开发/编译环境为 Microsoft Visual Studio 2010。
 ```
 
  - 项目内容：
@@ -10,8 +10,8 @@
     |--source文件夹（源代码）
     	|targetver.h, stdafx.h, stdafx.c, mcf6.h, mcf6.c, Resource.h 文档由VC++项目自动生成。
     	|mcf6Dlg.h, mcf6Dlg.c 文档主要实现 GUI 以及数据包的抓获。
-		|Protocol.h 实现各协议头的数据结构及类型定义。
-		|utilities.h, utilities.c 实现各协议头分析的功能函数。
+    	|Protocol.h 实现各协议头的数据结构及类型定义。
+    	|utilities.h, utilities.c 实现各协议头分析的功能函数。
 
     |--bin文件夹
         |--sniffer_wj.exe（打包好的sniffer程序，可直接运行）
