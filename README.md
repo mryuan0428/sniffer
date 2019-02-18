@@ -27,8 +27,18 @@
     ![Image text](/image/流程图.png)
 
  - 主要算法：
-```
- - 防火墙为黑名单模式，符合规则之一报文即被Reject
+
+     - 获取主机网卡设备：
+     ```
+    调用 pcap_findalldevs()获得网卡接口信息。
+    int Cmcf6Dlg::lixsniff_initCap()
+      { devCount = 0;
+        if(pcap_findalldevs(&alldev, errbuf) ==-1)
+           return -1; 
+        for(dev=alldev;dev;dev=dev->next) 
+            devCount++;	//记录设备数return 0;
+      }
+    ```
  - 对于所有被Reject的报文都自动进行日志记录
  - 对于一些新版本内核需要修改内核部分代码，WJ_firewall.c文件中：
     - nf_register_hook(&myhook)函数 需改为 nf_register_net_hook(&init_net,&myhook)
