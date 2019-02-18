@@ -198,29 +198,31 @@
     ```
 
  - 运行界面：
+ 	 - 安装 WinPcap
+
+ 	![Image text](/image/winpcap.png)
  	 - 主界面
 
- 	![Image text](/image/MainWindow.png)
- 	 - 添加规则
+ 	![Image text](/image/主界面.png)
+ 	 - 抓包
 
- 	![Image text](/image/AddRule.png)
- 	 - 修改规则
+ 	![Image text](/image/抓包.png)
+ 	 - 选择过滤规则并且使用 ping 命令
 
- 	![Image text](/image/ModifyRule.png)
- 	 - 删除规则
+ 	![Image text](/image/ping.png)
 
- 	![Image text](/image/DeleteRule.png)
- 	 - 导入规则
+ 	![Image text](/image/ping2.png)
+ 	 - 数据包的保存（地址中不能带有汉字）
 
- 	![Image text](/image/ImportRule.png)
- 	 - 导出规则
+ 	![Image text](/image/save.png)
+ 	 - 重新读取数据包
 
- 	![Image text](/image/ExportRule.png)
- 	 - 过滤日志记录
+ 	![Image text](/image/read.png)
 
- 	![Image text](/image/Log.png)
- 	 - 关于
+ 	![Image text](/image/read2.png)
+ 	 - 数据包解析
 
- 	![Image text](/image/About.png)
+ 	![Image text](/image/解析.png)
+
 
 
