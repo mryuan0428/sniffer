@@ -28,7 +28,7 @@
 
  - 主要算法：
 
-     - 获取主机网卡设备：
+     - 获取主机网卡设备
      ```c++
     //调用 pcap_findalldevs()获得网卡接口信息。
     int Cmcf6Dlg::lixsniff_initCap()
@@ -42,9 +42,53 @@
 
      - 打开指定网卡
     ```
-        调用 pcap_open_live()打开指定网卡接口，winpcap 将在此接口上侦听数据。
-        然后调用 pcap_datalink()、pcap_compile()、pcap_setfilter()分别检查是否是以太网，并对过滤器进行设置。
-        由于网络中过来的数据包是不同层次、不同协议的，过滤器的作用就是可以设定一些的规则来查看自己想要的数据包。
+    调用 pcap_open_live()打开指定网卡接口，winpcap 将在此接口上侦听数据。
+    然后调用 pcap_datalink()、pcap_compile()、pcap_setfilter()分别检查是否是以太网，并对过滤器进行设置。
+    由于网络中过来的数据包是不同层次、不同协议的，过滤器的作用就是可以设定一些的规则来查看自己想要的数据包。
+    ```
+
+     - 创建临时文件存储数据
+     ```
+    调用 pcap_dump_open()先创建一个文件，捕获的数据将会存储到此文件中，后面捕获的数据包将会实时地写入临时文件。
+    文件默认存储在 SaveData 文件中，文件名为存储时的时间，并且在捕获数据结束时，用户可以选择将此文件存储于指定路径。
+     ```
+
+    - 捕获、分析数据包
+    ```
+    因为主进程是一个对话框，它主要的任务是处理界面交互，而数据捕获是一项后台工作，
+    所以调用CreateThread()创建一个新的线程，再调用 lixsinff_CapThread()函数在线程中完成数据包的捕获工作。
+    在 lixsinff_CapThread()中调用 pcap_next_ex()函数进行数据包捕获，每到达一个数据包，
+    调用自定义的包处理函数 analyze_frame()函数完成对捕获数据的解析。
+    ```
+
+    - 相关数据更新到 GUI
+
+ - 主要数据结构：
+
+     - MAC 帧头信息
+     ```c++
+    //Mac 帧头
+    typedef struct ethhdr
+    { u_char dest[6];    //6 个字节 目标地址
+      u_char src[6];    //6 个字节 源地址
+      u_short type;     //2 个字节 类型
+    };
+     ```
+
+     - ARP头信息
+    ```c++
+    //ARP 头
+    typedef struct arphdr
+    { u_short ar_hrd;	//硬件类型
+      u_short ar_pro;	//协议类型
+      u_char ar_hln;	//硬件地址长度
+      u_char ar_pln;	//协议地址长度
+      u_short ar_op;	//操作码，1 为请求 2 为回复
+      u_char ar_srcmac[6];	//发送方 MAC 
+      u_char ar_srcip[4];	//发送方 IP 
+      u_char ar_destmac[6];	//接收方 MAC  
+      u_char ar_destip[4];	//接收方 IP
+    };
     ```
 
      - 创建临时文件存储数据
@@ -60,6 +104,8 @@
     ```
 
     - 相关数据更新到 GUI
+
+
 
  - 运行界面：
  	 - 主界面
